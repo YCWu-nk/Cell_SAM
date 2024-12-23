@@ -1,0 +1,1 @@
+python test.py --config SAM-Adapter-PyTorch\configs\cod-sam-vit-b.yaml --model SAM-Adapter-PyTorch\model_epoch_last.pth --save_dir SAM-Adapter-PyTorch/
