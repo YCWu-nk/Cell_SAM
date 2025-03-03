@@ -124,7 +124,7 @@ Download the Docker image [here](https://drive.google.com/file/d/1AiiJNnYxzKex_3
 ```
 $ docker import - Cell-SAM < ‘cellsamV4.tar’	
 ```
-We only mapped the input&output files of the Boxes-Prompted SAM, you can use this command to map more files.
+We only mapped the input & output files of the Boxes-Prompted SAM, you can use this command to map more files.
 ```
 $ docker run -it --gpus all -v ${your local file 1}:/prompt_SAM/mmdet_sam/datasam -v ${your local file 2}:/prompt_SAM/mmdet_sam/outputs ${id} /bin/bash
 ```
@@ -157,9 +157,9 @@ python test.py --dataroot ./datasets/maps --name maps --mode sb --lambda_SB 1.0 
 
 ### Utilize MMdetection metrics
 Download the weight from [here](https://drive.google.com/file/d/1Nk0mGBh6eFSmAT9IJ7tfluPm3eq8kzHp/view?usp=sharing), Put them under the /Cell_SAM/prompt_SAM/ path.
-Ensure that the number of 'num_classes' is correct in det4sam_spark_8xb32_r50-300e.py , and the content of 'classes' is correct in mmdetection/mmdet/datasets/coco.py , When there are normal cells, it contains 1 , 2 and 3 ; when there are no normal cells, it contains 1 and 2 .
+Ensure that the number of 'num_classes' is correct in det4sam_spark_8xb32_r50-300e.py , and the content of 'classes' is correct in prompt_sam/mmdet/datasets/coco.py , When there are normal cells, it contains 1 , 2 and 3 ; when there are no normal cells, it contains 1 and 2 .
 ```
-cd /mmdetection/
+cd /prompt_sam/
 ```
 ```
 python tools/test.py det4sam_spark_8xb32_r50-300e.py epoch_300.pth
@@ -177,7 +177,7 @@ $ conda install --yes -c pytorch pytorch=2.0.1 torchvision=0.15.2
 $ pip install -U openmim
 $ mim install mmengine
 $ mim install mmcv==2.0.*
-$ cd detection; pip install -v -e .; cd ..
+$ cd prompt_sam; pip install -v -e .; cd ..
 $ pip install ultralytics
 ```
 Install other related packages using pip or conda.
@@ -202,5 +202,4 @@ THG data: https://drive.google.com/drive/folders/1O2rU0_vzabG8Lv_hRdOabzCBttxwlZ
 Boxes-Prompted SAM weight: https://drive.google.com/file/d/1LvvXAwY4q_ELSWzvQc2_jTKddxI7fH13/view?usp=sharing \
 Fine-Tuned SAM weight: https://drive.google.com/file/d/1k5my3BmuifXOqFUDqY-vbstWwGYZnA7M/view?usp=drive_link \
 Image Generation weight: https://drive.google.com/file/d/1jZ1ks9W-ADopYmUougBA8jI6-Ia5U5Ue/view?usp=sharing \
-
 The code repository is currently being updated. Recent updates：Oct 7,2024; Oct 9,2024; Dec 23,2024; March 3rd,2025.
