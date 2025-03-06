@@ -25,7 +25,7 @@ $ conda install --yes -c pytorch pytorch=1.7.1 torchvision cudatoolkit=11.0
 $ pip install -U openmim
 $ mim install mmengine
 $ mim install mmcv==2.0.*
-$ cd detection; pip install -v -e .; cd ..
+$ cd prompt_SAM; pip install -v -e .; cd ..
 $ apt-get install git
 $ pip install git+https://github.com/facebookresearch/segment-anything.git
 ```
@@ -89,7 +89,7 @@ Finetune SAM using adapter, using the "finetune_SAM" file above, or refer to [SA
 $ python train.py --config \configs\cod-sam-vit-b.yaml
 ```
 ```
-$ python test.py --config \configs\cod-sam-vit-b.yaml --model \${CONFIG_FILE} --save_dir /
+$ python test.py --config \configs\cod-sam-vit-b.yaml --model \${CONFIG_FILE} --save_dir {PATH}
 ```
 
 ## Demo
@@ -115,7 +115,7 @@ Enter in the command box opened in the /Cell_SAM/ path.
 $ cd finetune_SAM
 ```
 ```
-$ python test.py --config configs/cod-sam-vit-b.yaml --model model_finetune.pth --save_dir /
+$ python test.py --config configs/cod-sam-vit-b.yaml --model model_finetune.pth
 ```
 The results saved in /Cell_SAM/finetune_SAM/visualizations/.
 
@@ -146,7 +146,7 @@ The results saved in {your local file 2}.
 #### Fine-Tuned SAM Mode
 Using docker cp instruction to put the demo dataset in finetune_SAM/load/Ima/, and put the [weight](https://drive.google.com/file/d/1k5my3BmuifXOqFUDqY-vbstWwGYZnA7M/view?usp=drive_link) in finetune_SAM/.
 ```
-python save.py --config configs\cod-sam-vit-b.yaml --model model_epoch_last.pth --save_dir /
+python save.py --config configs\cod-sam-vit-b.yaml --model model_epoch_last.pth
 ```
 
 #### Image Generation
