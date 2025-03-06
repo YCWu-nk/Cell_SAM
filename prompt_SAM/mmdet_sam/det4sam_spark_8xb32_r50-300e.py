@@ -162,7 +162,7 @@ model = dict(
         type='CSPNeXtPAFPN'),
     test_cfg=dict(
         max_per_img=2000, #Maximum number of detections per image
-        min_bbox_size=0,
+        min_bbox_size=30,
         nms=dict(iou_threshold=0.3, type='nms'),
         nms_pre=30000,
         score_thr=0.001),
