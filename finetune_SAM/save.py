@@ -1,31 +1,28 @@
+import argparse
 import os
-import yaml 
+import yaml
 import torch
-import cv2
-import glob
+from torch.utils.data import DataLoader
 from tqdm import tqdm
-from torchvision import transforms
-from mmengine.runner import load_checkpoint
-import numpy as np
 from skimage import exposure
+import numpy as np
+
+import datasets
 import models
 import utils
 
-# Define a function to convert a tensor to a PIL image
+from torchvision import transforms
+from mmengine.runner import load_checkpoint
+
+# Convert a PyTorch tensor to a PIL image
 def tensor2PIL(tensor):
-    """
-    Convert a PyTorch tensor to a PIL image.
-
-    Args:
-        tensor (torch.Tensor): The input PyTorch tensor.
-
-    Returns:
-        PIL.Image: The converted PIL image.
-    """
     toPIL = transforms.ToPILImage()
     return toPIL(tensor)
 
-# Define a function to adjust the intensity of an image
+# Use GPU if available, otherwise use CPU
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# Adjust the intensity range of the input image to be between 0 and 255.
 def acfiji(image):
     """
     Adjust the intensity range of the input image to be between 0 and 255.
@@ -36,91 +33,88 @@ def acfiji(image):
     Returns:
         np.ndarray: The intensity-adjusted image with data type uint8.
     """
+    # If it is a three-channel image, adjust the intensity of each channel separately
     if image.ndim == 3:  
-        # If it is a three-channel image, adjust the intensity of each channel separately
         a_image = np.zeros_like(image)
         for i in range(3):
             a_image[:, :, i] = exposure.rescale_intensity(image[:, :, i], out_range=(0, 255)).astype(np.uint8)
+    # If it is a single-channel image, directly adjust the intensity
     else:  
-        # If it is a single-channel image, directly adjust the intensity
         a_image = exposure.rescale_intensity(image, out_range=(0, 255)).astype(np.uint8)
     return a_image
 
-# Define the device
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-# Define the image resizing transformation
-transform = transforms.Compose([
-    transforms.ToPILImage(),
-    transforms.Resize((1024, 1024)),
-    transforms.ToTensor()
-])
-
-# Define the evaluation function
-def eval_psnr(image_paths, model, save_dir=None):
-    """
-    Evaluate the model on a set of images and save the predictions.
-
-    Args:
-        image_paths (list): A list of paths to the input images.
-        model (torch.nn.Module): The trained model.
-        save_dir (str, optional): The directory to save the predicted images. Defaults to None.
-    """
+# Evaluate PSNR and save the predicted images
+def eval_psnr(loader, model, save_dir=None, filenames=None):
     # Set the model to evaluation mode
     model.eval()
-    # Create a progress bar
-    pbar = tqdm(image_paths, leave=False, desc='val')
+    # Create a progress bar for the validation process
+    pbar = tqdm(loader, leave=False, desc='val')
 
-    for image_path in pbar:
-        # Get the image name
-        image_name = os.path.basename(image_path)
-        # Read the image
-        image = cv2.imread(image_path)
-        # Convert the image from BGR to RGB format
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        # Apply the transformation and move the image to the device
-        image = transform(image).unsqueeze(0).to(device)
+    for idx, batch in enumerate(pbar):
+        # Move the batch data to the specified device (GPU or CPU)
+        for k, v in batch.items():
+            batch[k] = v.to(device)
 
         with torch.no_grad():
-            # Perform inference on the image
-            pred = torch.sigmoid(model.infer(image))
-            # Convert the prediction tensor to a NumPy array and move it to the CPU
-            pred_np = pred.cpu().squeeze().numpy()
-            # Adjust the intensity of the predicted image
-            a_img_np = acfiji(pred_np)
-            # Define the save path for the predicted image
-            save_path = os.path.join(save_dir, image_name)
-            # Convert the predicted image back to BGR format and save it
-            cv2.imwrite(save_path, cv2.cvtColor(a_img_np, cv2.COLOR_RGB2BGR))
+            # Get the input data from the batch
+            inp = batch['inp']
+            # Make predictions using the model and apply the sigmoid function
+            pred = torch.sigmoid(model.infer(inp))
+
+            for i in range(inp.shape[0]):
+                # Convert the predicted tensor to a PIL image
+                pred_img = tensor2PIL(pred[i].cpu())
+                # Convert the PIL image to a numpy array
+                pred_np = np.array(pred_img)
+                # Apply automatic contrast adjustment to the numpy array
+                adjusted_pred_np = acfiji(pred_np)
+                # Convert the adjusted numpy array back to a PIL image
+                adjusted_pred_img = transforms.ToPILImage()(adjusted_pred_np)
+                # Get the corresponding file name
+                filename = filenames[idx * loader.batch_size + i]
+                # Save the predicted image with the original file name
+                adjusted_pred_img.save(os.path.join(save_dir, filename))
 
 if __name__ == '__main__':
-    import argparse
     # Create an argument parser
     parser = argparse.ArgumentParser()
-    # Add an argument for the configuration file path
+    # Add an argument for the configuration file
     parser.add_argument('--config')
-    # Add an argument for the model checkpoint path
+    # Add an argument for the pre - trained model file
     parser.add_argument('--model')
-    # Add an argument for the directory containing input images
-    parser.add_argument('--image_dir', default='load/Ima', help='Directory containing input images')
-    # Add an argument for the directory to save visualizations
+    # Add an argument for the directory to save visualizations, with a default value
     parser.add_argument('--save_dir', default='visualizations', help='Directory to save visualizations')
-    # Parse the command-line arguments
+    # Parse the command - line arguments
     args = parser.parse_args()
 
     # Open and load the configuration file
     with open(args.config, 'r') as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
+    # Get the test dataset configuration
+    spec = config['test_dataset']
+    # Create the test dataset
+    dataset = datasets.make(spec['dataset'])
+    # Wrap the test dataset
+    dataset = datasets.make(spec['wrapper'], args={'dataset': dataset})
 
-    # Load the model and move it to the device
-    model = models.make(config['model']).to(device) 
-    # Load the model checkpoint
+    # Get the root path of the test dataset images
+    test_image_root = spec['dataset']['args']['root_path_1']
+    # Get all image file names in sorted order
+    filenames = sorted(os.listdir(test_image_root))
+
+    # Create a data loader for the test dataset
+    loader = DataLoader(dataset, batch_size=spec['batch_size'], num_workers=0)
+
+    # Create the model and move it to the specified device
+    model = models.make(config['model']).to(device)
+    # Load the pre - trained model checkpoint
     sam_checkpoint = torch.load(args.model, map_location=device)
     # Load the model state dictionary
     model.load_state_dict(sam_checkpoint, strict=True)
 
-    # Get the paths of all JPEG images in the input directory
-    image_paths = glob.glob(os.path.join(args.image_dir, '*.jpg'))
+    # Create the save directory if it does not exist
+    if not os.path.exists(args.save_dir):
+        os.makedirs(args.save_dir)
 
-    # Perform the evaluation
-    eval_psnr(image_paths, model, save_dir=args.save_dir)
+    # Evaluate PSNR and save the predicted images
+    eval_psnr(loader, model, save_dir=args.save_dir, filenames=filenames)
