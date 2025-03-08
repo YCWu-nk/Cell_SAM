@@ -3,7 +3,7 @@
 Official PyTorch implementation and demonstration of <*Large-scale segmentation model facilitates intraoperative histopathology by third harmonic generation microscopy*> by Yuchen Wu, Sylvia Spies, Pieter Wesseling, Marie Louise Groot and Zhiqing Zhang.
 
 <p float="right">
-  <img src="cell-sam.png?raw=true" width="92%" />
+  <img src="cell-sam.png?raw=true" width="95%" />
 </p>
 
 ## Note
@@ -36,7 +36,7 @@ $ pip install -r requirements.txt
 If you encounter other uninstalled packages, please use pip to manually install them.
 
 ## Train and Test
-Train your new dataset.
+Train your own dataset.
 
 ### Image Generation
 Generate your dataset from pathological images using the "image_generation" file above\
@@ -96,7 +96,7 @@ $ python test.py --config \configs\cod-sam-vit-b.yaml --model \${CONFIG_FILE} --
 Directly use the trained model.
 
 ### Boxes-Prompted SAM Mode
-Download the Demo dataset from [here](https://drive.google.com/drive/folders/1O2rU0_vzabG8Lv_hRdOabzCBttxwlZNE?usp=sharing), Put them under the /Cell_SAM/prompt_SAM/mmdet_sam/datasam/ path.
+Download the Demo dataset from [here](https://drive.google.com/drive/folders/1JcD8LF9rsgVToCnQGWb5i5SRY4eRTCaI?usp=sharing), Put them under the /Cell_SAM/prompt_SAM/mmdet_sam/datasam/ path.
 Download the weight from [here](https://drive.google.com/file/d/1LvvXAwY4q_ELSWzvQc2_jTKddxI7fH13/view?usp=sharing), Put them under the /Cell_SAM/prompt_SAM/mmdet_sam/ path.
 Enter in the command box opened in the /Cell_SAM/ path.
 ```
@@ -108,8 +108,8 @@ $ python detector_sam_demo.py datasam det4sam_spark_8xb32_r50-300e.py epoch_300.
 The results saved in /Cell_SAM/prompt_SAM/mmdet_sam/outputs/.
 
 ### Fine-Tuned SAM Mode
-Download the Demo dataset from [here](https://drive.google.com/drive/folders/1O2rU0_vzabG8Lv_hRdOabzCBttxwlZNE?usp=sharing), Put them under the /Cell_SAM/finetune_SAM/load/Ima/ path.
-Download the weight from [here](https://drive.google.com/file/d/1k5my3BmuifXOqFUDqY-vbstWwGYZnA7M/view?usp=sharing), Put them under the /Cell_SAM/finetune_SAM/ path.
+Download the Demo dataset from [here](https://drive.google.com/drive/folders/1JcD8LF9rsgVToCnQGWb5i5SRY4eRTCaI?usp=sharing), Put them under the /Cell_SAM/finetune_SAM/load/Ima/ path.
+Download the weight from [here](https://drive.google.com/file/d/1me0ptuTqTE2pWK0O88kHLm5SYPFjT05R/view?usp=sharing), Put them under the /Cell_SAM/finetune_SAM/ path.
 Enter in the command box opened in the /Cell_SAM/ path.
 ```
 $ cd finetune_SAM
@@ -144,9 +144,9 @@ $ python detector_sam_demo.py  datasam det4sam_spark_8xb32_r50-300e.py epoch_300
 The results saved in {your local file 2}.
 
 #### Fine-Tuned SAM Mode
-Using docker cp instruction to put the demo dataset in finetune_SAM/load/Ima/, and put the [weight](https://drive.google.com/file/d/1k5my3BmuifXOqFUDqY-vbstWwGYZnA7M/view?usp=drive_link) in finetune_SAM/.
+Using docker cp instruction to put the demo dataset in /finetune_SAM/load/Ima/, and put the [weight](https://drive.google.com/file/d/1me0ptuTqTE2pWK0O88kHLm5SYPFjT05R/view?usp=sharing) in finetune_SAM/.
 ```
-python save.py --config configs\cod-sam-vit-b.yaml --model model_epoch_last.pth
+python save.py --config configs\cod-sam-vit-b.yaml --model model_finetune.pth
 ```
 
 #### Image Generation
@@ -186,7 +186,7 @@ $ pip install -r requirements.txt
 ```
 
 ### Boxes-Prompted SAM2 Mode
-Download the python file and weight from [here](https://drive.google.com/file/d/1LvvXAwY4q_ELSWzvQc2_jTKddxI7fH13/view?usp=sharing), Put them under the /Cell_SAM/prompt_SAM/mmdet_sam/ path.
+Download the weight from [here](https://drive.google.com/file/d/1LvvXAwY4q_ELSWzvQc2_jTKddxI7fH13/view?usp=sharing), Put them under the /Cell_SAM/prompt_SAM/mmdet_sam/ path.
 Enter in the command box opened in the /Cell_SAM/ path.
 ```
 $ cd prompt_SAM/mmdet_sam
@@ -198,8 +198,8 @@ The results saved in /Cell_SAM/prompt_SAM/mmdet_sam/outputs/.
 Our source code is based on [UNSB](https://github.com/cyclomon/UNSB), [OpenMMLab](https://github.com/open-mmlab) and [SAM-Adapter](https://github.com/tianrun-chen/SAM-Adapter-PyTorch). \
 We thank them for their good work! \
 The summary of open source files mentioned in the demo is as follows：\
-THG data: https://drive.google.com/drive/folders/1O2rU0_vzabG8Lv_hRdOabzCBttxwlZNE?usp=sharing \
+THG data: https://drive.google.com/drive/folders/1JcD8LF9rsgVToCnQGWb5i5SRY4eRTCaI?usp=sharing \
 Boxes-Prompted SAM weight: https://drive.google.com/file/d/1LvvXAwY4q_ELSWzvQc2_jTKddxI7fH13/view?usp=sharing \
-Fine-Tuned SAM weight: https://drive.google.com/file/d/1k5my3BmuifXOqFUDqY-vbstWwGYZnA7M/view?usp=drive_link \
+Fine-Tuned SAM weight: https://drive.google.com/file/d/1me0ptuTqTE2pWK0O88kHLm5SYPFjT05R/view?usp=sharing \
 Image Generation weight: https://drive.google.com/file/d/1jZ1ks9W-ADopYmUougBA8jI6-Ia5U5Ue/view?usp=sharing \
 The code repository is currently being updated. Recent updates：Oct 7,2024; Oct 9,2024; Dec 23,2024; March 3rd,2025.
