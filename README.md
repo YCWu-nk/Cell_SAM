@@ -21,6 +21,7 @@ $ nvcc -V
 The installation is mainly composed of MMDetection. Please note that mmcv is a package that is prone to installation issues. When encountering issues, you can refer to [installation](https://mmdetection.readthedocs.io/en/latest/get_started.html).
 ```
 $ conda create -n cell-sam python=3.8
+$ conda activate cell-sam
 $ conda install --yes -c pytorch pytorch=1.7.1 torchvision cudatoolkit=11.0
 $ pip install -U openmim
 $ mim install mmengine
@@ -86,10 +87,10 @@ $ python detector_sam_demo.py ${DATASET} ${CONFIG_FILE} ${weight 3} --sam-device
 ### Finetune SAM
 Finetune SAM using adapter, using the "finetune_SAM" file above, or refer to [SAM-Adapter](https://github.com/tianrun-chen/SAM-Adapter-PyTorch) 
 ```
-$ python train.py --config \configs\cod-sam-vit-b.yaml
+$ python train.py --config configs/cod-sam-vit-b.yaml
 ```
 ```
-$ python test.py --config \configs\cod-sam-vit-b.yaml --model \${CONFIG_FILE} --save_dir {PATH}
+$ python save.py --config configs/cod-sam-vit-b.yaml --model ${CONFIG_FILE} --save_dir {PATH}
 ```
 
 ## Demo
@@ -115,7 +116,7 @@ Enter in the command box opened in the /Cell_SAM/ path.
 $ cd finetune_SAM
 ```
 ```
-$ python test.py --config configs/cod-sam-vit-b.yaml --model model_finetune.pth
+$ python save.py --config configs/cod-sam-vit-b.yaml --model model_finetune.pth
 ```
 The results saved in /Cell_SAM/finetune_SAM/visualizations/.
 
@@ -146,7 +147,7 @@ The results saved in {your local file 2}.
 #### Fine-Tuned SAM Mode
 Using docker cp instruction to put the demo dataset in /finetune_SAM/load/Ima/, and put the [weight](https://drive.google.com/file/d/1me0ptuTqTE2pWK0O88kHLm5SYPFjT05R/view?usp=sharing) in finetune_SAM/.
 ```
-python save.py --config configs\cod-sam-vit-b.yaml --model model_finetune.pth
+python save.py --config configs/cod-sam-vit-b.yaml --model model_finetune.pth
 ```
 
 #### Image Generation
@@ -173,6 +174,7 @@ Demo of SAM2 version of Cell-SAM. Please use a suitable graphics card and CUDA v
 
 ```
 $ conda create -n cell-sam2 python=3.10
+$ conda activate cell-sam2
 $ conda install --yes -c pytorch pytorch=2.0.1 torchvision=0.15.2
 $ pip install -U openmim
 $ mim install mmengine
