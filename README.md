@@ -35,10 +35,14 @@ Install other related packages using pip.
 $ pip install -r requirements.txt
 ```
 If you encounter other uninstalled packages, please use pip to manually install them.
-***NOTE*** The most prone to installation errors is 'mmcv'. Please check if the torch installation is GPU version instead of CPU version before install it. If you encounter compilation errors, the best way is to install using 'pip' [here]([https://github.com/open-mmlab/mmpretrain](https://pytorch.org/get-started/previous-versions/)), like:
+***NOTE*** the most prone to installation errors is 'mmcv'. Please check if the torch installation is GPU version instead of CPU version before install it. If you encounter compilation errors, the best way is to install using 'pip' [here]([https://github.com/open-mmlab/mmpretrain](https://pytorch.org/get-started/previous-versions/)), like:
+```
 $ pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
+```
 or 
+```
 $ pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
+```
 
 ## Train and Test
 Train your own dataset.
