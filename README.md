@@ -6,7 +6,7 @@ Official PyTorch implementation and demonstration of <*Large-scale segmentation 
   <img src="cell-sam.png?raw=true" width="95%" />
 </p>
 
-## Note
+## Introduction
 
 The framework of Cell-SAM consists of four parts, including object detection module, image generation module, prompt SAM module, and fine-tuning SAM module.
 
@@ -35,6 +35,10 @@ Install other related packages using pip.
 $ pip install -r requirements.txt
 ```
 If you encounter other uninstalled packages, please use pip to manually install them.
+***NOTE*** The most prone to installation errors is 'mmcv'. Please check if the torch installation is GPU version instead of CPU version before install it. If you encounter compilation errors, the best way is to install using 'pip' [here]([https://github.com/open-mmlab/mmpretrain](https://pytorch.org/get-started/previous-versions/)), like:
+$ pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
+or 
+$ pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
 
 ## Train and Test
 Train your own dataset.
@@ -204,4 +208,4 @@ THG data: https://drive.google.com/drive/folders/1JcD8LF9rsgVToCnQGWb5i5SRY4eRTC
 Boxes-Prompted SAM weight: https://drive.google.com/file/d/1LvvXAwY4q_ELSWzvQc2_jTKddxI7fH13/view?usp=sharing \
 Fine-Tuned SAM weight: https://drive.google.com/file/d/1me0ptuTqTE2pWK0O88kHLm5SYPFjT05R/view?usp=sharing \
 Image Generation weight: https://drive.google.com/file/d/1jZ1ks9W-ADopYmUougBA8jI6-Ia5U5Ue/view?usp=sharing \
-The code repository is currently being updated. Recent updates：Oct 7,2024; Oct 9,2024; Dec 23,2024; March 3rd,2025.
+Recent updates：Oct 7,2024; Oct 9,2024; Dec 23,2024; March 3rd,2025. New installation notice on July 28th,2025.
