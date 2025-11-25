@@ -1,6 +1,6 @@
 # Cell-SAM
 
-Official PyTorch implementation and demonstration of <*DNA structural state as a label-free biomarker for intraoperative diagnosis of CNS tumors by AI-augmented third harmonic generation microscopy*>
+Official PyTorch implementation and demonstration of *DNA structural state as a label-free biomarker for intraoperative diagnosis of CNS tumors by AI-augmented third harmonic generation microscopy*
 
 <p float="right">
   <img src="cell-sam.png?raw=true" width="95%" />
@@ -206,10 +206,15 @@ The summary of open source files mentioned in the demo is as follows：\
 THG data: https://drive.google.com/drive/folders/1JcD8LF9rsgVToCnQGWb5i5SRY4eRTCaI?usp=sharing \
 Boxes-Prompted SAM weight: https://drive.google.com/file/d/1LvvXAwY4q_ELSWzvQc2_jTKddxI7fH13/view?usp=sharing \
 Fine-Tuned SAM weight: https://drive.google.com/file/d/1me0ptuTqTE2pWK0O88kHLm5SYPFjT05R/view?usp=sharing \
-Image Generation weight: https://drive.google.com/file/d/1jZ1ks9W-ADopYmUougBA8jI6-Ia5U5Ue/view?usp=sharing \
+Image Generation weight: https://drive.google.com/file/d/1jZ1ks9W-ADopYmUougBA8jI6-Ia5U5Ue/view?usp=sharing 
 
 ## Acknowledgement
-For environment configuration, we used a workstation to fine-tune the the SAM and pre-trained object detection model, configured with Ubuntu 18.04, Python 3.9, PyTorch 1.9.0, CUDA 11.1, and an NVIDIA Tesla V100 (32GB) GPU. During the writing and testing of the lightweight code, we used a desktop computer configured with Windows 10, Python 3.6, and PyTorch 1.9.1, equipped with an NVIDIA GeForce RTX 3060 GPU. In addition, we tested the functionality of our code with two modes on more than 6 servers, including very different operating systems (Windows, Ubuntu, and Arch Linux), and with 4x1080Ti, 1xV100, 1x3080, 4x3090Ti, and 4x4090 GPUs. No performance degradation was observed in any of these environments or on any of the servers. In addition, the Docker image was packaged on Ubuntu 16.04, Python 3.8, and PyTorch 1.7.1. \
-Thanks to the open source community for your good work! \
+Fine-tuning of SAM and pre-training of the object-detection model were performed on a workstation running Ubuntu 18.04 with Python 3.9, PyTorch 1.9.0, CUDA 11.1, and an NVIDIA Tesla V100 (32 GB) GPU. Development and testing of the lightweight version of the code were conducted on a desktop computer running Windows 10 with Python 3.6, PyTorch 1.9.1 and an NVIDIA GeForce RTX 3060 GPU.
+
+To assess robustness, we further evaluated both modes of our code on more than six additional servers with diverse operating systems (Windows, Ubuntu, and Arch Linux) and GPU configurations, including 4×1080Ti, 1×V100, 1×3080, 4×3090Ti, and 4×4090. No performance degradation was observed across any of these hardware or software environments.
+
+A Docker image of the full software environment was additionally built on Ubuntu 16.04 with Python 3.8 and PyTorch 1.7.1. 
+
+Thanks to the open source community for your good work! 
 
 Recent updates：Oct 7,2024; Oct 9,2024; Dec 23,2024; March 3rd,2025. New installation notice on July 28th,2025. New submission 2025/11/25.
