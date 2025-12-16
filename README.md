@@ -1,6 +1,6 @@
 # Cell-SAM
 
-Official PyTorch implementation and demonstration of *DNA structural state as a label-free biomarker for intraoperative diagnosis of CNS tumors by AI-augmented third harmonic generation microscopy*
+Official PyTorch implementation and demonstration of *Chromatin features as a label-free biomarker for intraoperative diagnosis of CNS tumors by AI-augmented third harmonic generation microscopy*, by Yuchen Wu, Sylvia Spies, Qiyu Bo, Yuan Zhang, Ji Qi, Pieter Wesseling, Marie Louise Groot and Zhiqing Zhang.
 
 <p float="right">
   <img src="cell-sam.png?raw=true" width="95%" />
@@ -12,13 +12,13 @@ The framework of Cell-SAM consists of four parts, including object detection mod
 
 ## Environment
 
-We suggest confirming that the basic environment is installed correctly first:
+confirming that the basic environment is installed correctly first:
 ```
 $ nvidia-smi
 $ conda --version
 $ nvcc -V
 ```
-The installation is mainly composed of MMDetection. Please note that mmcv is a package that is prone to installation issues. When encountering issues, you can refer to [installation](https://mmdetection.readthedocs.io/en/latest/get_started.html).
+The installation is mainly composed of MMDetection. You can refer to [installation](https://mmdetection.readthedocs.io/en/latest/get_started.html) as well.
 ```
 $ conda create -n cell-sam python=3.8
 $ conda activate cell-sam
